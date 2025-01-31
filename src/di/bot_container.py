@@ -19,5 +19,8 @@ class BotContainer(containers.DeclarativeContainer):
         VocabMateBot,
         token=config.BOT_TOKEN,
         storage=psql_user_state_storage,
-        routers=[handlers.start.router],
+        routers=[
+            handlers.start.router,
+            handlers.end.router
+        ],
     )

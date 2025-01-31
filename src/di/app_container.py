@@ -1,9 +1,14 @@
 from dependency_injector import containers, providers
 
 from src import config
+from src.bot import handlers
 from src.di.bot_container import BotContainer
 from src.di.data_container import DataContainer
 from src.di.service_container import ServiceContainer
+
+
+def inject__handlers():
+    handlers.utils.TRUSTED_USER_ID = di.config.TRUSTED_USER_ID()
 
 
 class AppContainer(containers.DeclarativeContainer):
@@ -17,4 +22,7 @@ class AppContainer(containers.DeclarativeContainer):
 di = AppContainer()
 
 di.config.BOT_TOKEN.from_value(config.BOT_TOKEN)
+di.config.TRUSTED_USER_ID.from_value(config.TRUSTED_USER_ID)
 di.config.DB_URL.from_value(config.DB_URL)
+
+inject__handlers()

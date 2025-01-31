@@ -17,6 +17,7 @@ load_dotenv(PATH_TO_ENV)
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 DB_URL = os.getenv('DB_URL')
+TRUSTED_USER_ID = int(os.getenv('TRUSTED_USER_ID'))
 
 # Configurate loggers
 CONSOLE_LOG_FORMAT = "%(asctime)s [%(levelname)s] | %(name)s | (%(filename)s:%(lineno)d) - %(message)s"
