@@ -1,6 +1,7 @@
 from aiogram import Dispatcher, Bot, Router
 from aiogram.fsm.storage.base import BaseStorage
 
+from src.bot import commands
 from src.loggers import bot_logger
 
 
@@ -24,6 +25,13 @@ class VocabMateBot:
             return
         self.dp.include_routers(*routers)
 
+    async def _set_commands(self):
+        command_list = [
+            commands.NEW_CARD_GROUP,
+            commands.CANCEL
+        ]
+        await self.bot.set_my_commands(command_list)
+
     async def _startup(self):
         bot_name = await self.bot.get_my_name()
         bot_logger.info(f'{bot_name.name} bot is started.')
@@ -33,5 +41,6 @@ class VocabMateBot:
         bot_logger.info(f'{bot_name.name} bot is ended.')
 
     async def run(self):
+        await self._set_commands()
         await self.bot.delete_webhook(drop_pending_updates=True)
         await self.dp.start_polling(self.bot)

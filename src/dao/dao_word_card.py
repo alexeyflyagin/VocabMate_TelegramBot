@@ -16,15 +16,26 @@ async def get_by_id(
     return res.scalar_one_or_none()
 
 
+async def get_by_group_id(
+        s: AsyncSession,
+        group_id: int,
+        with_for_update: bool = False
+) -> tuple[WordCardOrm, ...]:
+    query = select(WordCardOrm).filter(WordCardOrm.group_id == group_id).order_by(WordCardOrm.date_create)
+    set_with_for_update_if(query, with_for_update)
+    res = await s.execute(query)
+    return tuple(res.scalars().all())
+
+
 async def create(
         s: AsyncSession,
         group_id: int,
         word: str,
-        transcriptions: str,
+        transcription: str,
         translations: list[str],
         pos: list[str],
 ) -> WordCardOrm:
-    new_row = WordCardOrm(group_id=group_id, word=word, transcriptions=transcriptions, translations=translations,
+    new_row = WordCardOrm(group_id=group_id, word=word, transcription=transcription, translations=translations,
                           pos=pos)
     s.add(new_row)
     await s.flush()

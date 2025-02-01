@@ -1,7 +1,7 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from src.bot import sres
+from src.bot.resources import sres
 from src.bot.exceptions import InvalidTrustedUserId
 from src.loggers import bot_logger
 

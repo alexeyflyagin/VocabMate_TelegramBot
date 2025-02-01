@@ -7,8 +7,10 @@ from src.di.data_container import DataContainer
 from src.di.service_container import ServiceContainer
 
 
-def inject__handlers():
+def inject():
     handlers.utils.TRUSTED_USER_ID = di.config.TRUSTED_USER_ID()
+
+    handlers.card_group.card_group_service = di.services.card_group()
 
 
 class AppContainer(containers.DeclarativeContainer):
@@ -25,4 +27,4 @@ di.config.BOT_TOKEN.from_value(config.BOT_TOKEN)
 di.config.TRUSTED_USER_ID.from_value(config.TRUSTED_USER_ID)
 di.config.DB_URL.from_value(config.DB_URL)
 
-inject__handlers()
+inject()

@@ -12,7 +12,7 @@ class BotContainer(containers.DeclarativeContainer):
 
     psql_user_state_storage = providers.Factory(
         PgSQLUserStateStorage,
-        user_state_service=services.user_state_service,
+        user_state_service=services.user_state,
     )
 
     vocab_bot = providers.Factory(
@@ -21,6 +21,7 @@ class BotContainer(containers.DeclarativeContainer):
         storage=psql_user_state_storage,
         routers=[
             handlers.start.router,
+            handlers.card_group.router,
             handlers.end.router
         ],
     )
