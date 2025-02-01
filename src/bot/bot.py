@@ -1,7 +1,7 @@
 from aiogram import Dispatcher, Bot, Router
 from aiogram.fsm.storage.base import BaseStorage
 
-from src.bot import commands
+from src.bot.resources import commands
 from src.loggers import bot_logger
 
 
@@ -28,6 +28,7 @@ class VocabMateBot:
     async def _set_commands(self):
         command_list = [
             commands.NEW_CARD_GROUP,
+            commands.MY_CARD_GROUP,
             commands.CANCEL
         ]
         await self.bot.set_my_commands(command_list)

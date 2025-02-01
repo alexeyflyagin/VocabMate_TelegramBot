@@ -3,6 +3,14 @@ from textwrap import dedent
 
 class DEFAULT:
     FIELD_PLACEHOLDER = '-'
+    TEMPORARILY_UNAVAILABLE = "This feature is temporarily unavailable."
+
+    class BTN:
+        ADD = "+ Add"
+        BACK = "« Back"
+        PREVIOUS_SYM = "«"
+        PAGE_COUNTER = "{current} / {total}"
+        NEXT_SYM = "»"
 
 
 class AUTH:
@@ -25,6 +33,22 @@ class ERRORS:
     UNEXPECTED = """Ops! An unexpected error occurred."""
     ACCESS_ERROR = "😔 Sorry, *it's a private bot!* You don't have access to this bot!"
 
+
+class CARD_GROUP_LIST:
+    ITEM = """*{btn_label}*  {title}"""
+
+    VIEW = dedent("""\
+    The list of your card groups:
+    —
+    {items}
+    —
+    """)
+
+    VIEW__NO_ITEMS = dedent("""\
+        The list or card groups still is empty.
+        
+        Add the first card group to start 👇
+    """)
 
 class CARD_GROUP:
     SHORT_LIST__ITEM = """• {card_content}"""

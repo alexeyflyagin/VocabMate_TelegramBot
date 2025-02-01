@@ -1,2 +1,3 @@
 class CallbackPrefix:
-    CONFIRMATION = '-100'
+    CONFIRMATION = '-10'
+    LIST = '-20'

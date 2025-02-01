@@ -3,6 +3,21 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
+class ItemData(BaseModel):
+    card_group_id: int
+    date_create: datetime
+    title: str
+    card_labels: list[str]
+
+
+class CardGroupPageOfListViewData(BaseModel):
+    total_items: int
+    page: int
+    total_pages: int
+    limit: int
+    items: list[ItemData]
+
+
 class CardGroupViewData(BaseModel):
     card_group_id: int
     date_create: datetime
