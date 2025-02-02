@@ -15,7 +15,7 @@ def vd__card_group__from__entity(entity: CardGroupEntity) -> CardGroupViewData:
         card_group_id=entity.id,
         date_create=entity.date_create,
         title=entity.title,
-        card_labels=[i.word for i in entity.cards]
+        card_labels=[i.term for i in entity.cards]
     )
 
 
@@ -37,7 +37,7 @@ def item_data_list__from__entities(entities: list[CardGroupEntity]) -> list[Item
     items = []
     for entity in entities:
         item = ItemData(card_group_id=entity.id, date_create=entity.date_create, title=entity.title,
-                        card_labels=[i.word for i in entity.cards])
+                        card_labels=[i.term for i in entity.cards])
         items.append(item)
     return items
 

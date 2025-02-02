@@ -50,6 +50,7 @@ class CARD_GROUP_LIST:
         Add the first card group to start 👇
     """)
 
+
 class CARD_GROUP:
     SHORT_LIST__ITEM = """• {card_content}"""
     SHORT_LIST__MORE = """{more_counter} more items..."""

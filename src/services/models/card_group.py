@@ -26,4 +26,3 @@ class GetCardGroupsResponse(BaseModel):
     total_pages: int
     limit: int
     items: list[CardGroupEntity]
-

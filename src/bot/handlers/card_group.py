@@ -1,6 +1,5 @@
 from aiogram import Router, F
 from aiogram.enums import ParseMode, ContentType
-from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery

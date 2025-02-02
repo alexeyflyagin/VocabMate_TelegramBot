@@ -19,6 +19,5 @@ async def main():
         await session_manager.disconnect()
 
 
-
 if __name__ == '__main__':
     asyncio.run(main())

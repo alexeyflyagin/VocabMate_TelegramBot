@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import BIGINT, VARCHAR, JSON, DateTime, ForeignKey
+from sqlalchemy import BIGINT, VARCHAR, JSON, DateTime, ForeignKey, TEXT
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
 Base = declarative_base()
@@ -26,16 +26,14 @@ class UserStateOrm(Base):
 class CardGroupOrm(Base):
     __tablename__ = 'card_group'
     id: Mapped[int] = mapped_column(BIGINT, primary_key=True, autoincrement=True)
-    date_create: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
     title: Mapped[str] = mapped_column(VARCHAR, nullable=False)
 
 
-class WordCardOrm(Base):
-    __tablename__ = 'word_card'
+class CardItemOrm(Base):
+    __tablename__ = 'card_item'
     id: Mapped[int] = mapped_column(BIGINT, primary_key=True, autoincrement=True)
-    date_create: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
     group_id: Mapped[int] = mapped_column(BIGINT, ForeignKey('card_group.id', ondelete=CASCADE), nullable=False)
-    word: Mapped[str] = mapped_column(VARCHAR, nullable=False)
-    transcription: Mapped[str] = mapped_column(VARCHAR, nullable=False)
-    translations: Mapped[list[str]] = mapped_column(JSON, nullable=False)
-    pos: Mapped[list[str]] = mapped_column(JSON, nullable=False)
+    term: Mapped[str] = mapped_column(VARCHAR, nullable=False)
+    definition: Mapped[str] = mapped_column(TEXT, nullable=False)

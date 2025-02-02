@@ -3,14 +3,12 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class WordCardEntity(BaseModel):
+class CardItemEntity(BaseModel):
     id: int
-    date_create: datetime
+    created_at: datetime
     group_id: int
-    word: str
-    transcription: str
-    translations: list[str]
-    pos: list[str]
+    term: str
+    definition: str
 
     class Config:
         from_attributes = True
@@ -18,10 +16,10 @@ class WordCardEntity(BaseModel):
 
 class CardGroupEntity(BaseModel):
     id: int
-    date_create: datetime
+    created_at: datetime
     title: str
 
-    cards: list[WordCardEntity] | None = None
+    cards: list[CardItemEntity] | None = None
 
     class Config:
         from_attributes = True

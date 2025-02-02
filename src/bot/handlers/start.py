@@ -4,8 +4,8 @@ from aiogram.filters import StateFilter, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from src.bot.resources import sres, commands
 from src.bot.handlers.utils import check_user_id
+from src.bot.resources import sres, commands
 from src.bot.states import MainStates
 
 router = Router(name=__name__)

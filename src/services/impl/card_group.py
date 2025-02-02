@@ -2,12 +2,12 @@ import math
 
 from sqlalchemy.exc import SQLAlchemyError
 
-from src.dao import dao_card_group, dao_word_card
+from src.dao import dao_card_group, dao_card_item
 from src.data.session_manager import SessionManager
 from src.loggers import service_logger
 from src.services.exceptions import VocabMateAPIError, VocabMateDatabaseError, VocabMateNotFoundError
 from src.services.models.card_group import CreateCardGroupRequest, GetCardGroupsRequest, GetCardGroupsResponse
-from src.services.models.entities import CardGroupEntity, WordCardEntity
+from src.services.models.entities import CardGroupEntity, CardItemEntity
 from src.services.utils import raise_e_if_none
 
 
@@ -58,9 +58,9 @@ class CardGroupService:
                 card_group = await dao_card_group.get_by_id(s, id_=id_, with_for_update=True)
                 raise_e_if_none(card_group, e=VocabMateNotFoundError(f"If the card group (id={id_}) was not found"))
                 entity = CardGroupEntity.model_validate(card_group)
-                word_cards = await dao_word_card.get_by_group_id(s, group_id=id_)
-                word_cards_entities = [WordCardEntity.model_validate(i) for i in word_cards]
-                entity.cards = word_cards_entities
+                card_items = await dao_card_item.get_by_group_id(s, group_id=id_)
+                card_item_entities = [CardItemEntity.model_validate(i) for i in card_items]
+                entity.cards = card_item_entities
                 return entity
         except VocabMateNotFoundError as e:
             service_logger.debug(e)
@@ -91,8 +91,8 @@ class CardGroupService:
                 items = []
                 for i in card_groups:
                     entity = CardGroupEntity.model_validate(i)
-                    cards = await dao_word_card.get_by_group_id(s, i.id)
-                    entity.cards = [WordCardEntity.model_validate(i) for i in cards]
+                    cards = await dao_card_item.get_by_group_id(s, i.id)
+                    entity.cards = [CardItemEntity.model_validate(i) for i in cards]
                     items.append(entity)
 
                 res = GetCardGroupsResponse(total_items=total_items, page=data.page, total_pages=total_pages,
