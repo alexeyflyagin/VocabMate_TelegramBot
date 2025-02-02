@@ -20,12 +20,12 @@ async def get_page(
         s: AsyncSession,
         limit: int,
         page: int,
-        block_row: bool = False,
+        with_for_update: bool = False,
 ) -> tuple[CardGroupOrm, ...] | None:
     query = select(CardGroupOrm).order_by(CardGroupOrm.created_at.desc())
     offset = page * limit
     query = query.offset(offset).limit(limit)
-    query = set_with_for_update_if(query, block_row)
+    query = set_with_for_update_if(query, with_for_update)
     r = await s.execute(query)
     return tuple(r.scalars().all())
 

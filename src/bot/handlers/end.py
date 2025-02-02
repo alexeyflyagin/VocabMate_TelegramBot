@@ -4,8 +4,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import ErrorEvent
 
 from src.bot.exceptions import InvalidTrustedUserId
-from src.bot.handlers.utils import unknown_error, unknown_error_for_callback
 from src.bot.resources import sres
+from src.bot.utils.state_utils import unknown_error, unknown_error_for_callback
 from src.loggers import bot_logger
 
 router = Router(name=__name__)

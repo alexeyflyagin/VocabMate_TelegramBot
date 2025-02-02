@@ -7,3 +7,8 @@ class MainStates(StatesGroup):
 
 class NewCardGroupStates(StatesGroup):
     Title = State()
+
+
+class NewCardItemStates(StatesGroup):
+    Term = State()
+    Definition = State()

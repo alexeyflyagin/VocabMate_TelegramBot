@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.dao.utils import set_with_for_update_if
@@ -25,6 +25,31 @@ async def get_by_group_id(
     set_with_for_update_if(query, with_for_update)
     res = await s.execute(query)
     return tuple(res.scalars().all())
+
+
+async def get_page_by_group_id(
+        s: AsyncSession,
+        group_id: int,
+        limit: int,
+        page: int,
+        with_for_update: bool = False
+) -> tuple[CardItemOrm, ...]:
+    query = select(CardItemOrm).filter(CardItemOrm.group_id == group_id)
+    query = query.order_by(CardItemOrm.created_at.desc())
+    offset = page * limit
+    query = query.offset(offset).limit(limit)
+    query = set_with_for_update_if(query, with_for_update)
+    r = await s.execute(query)
+    return tuple(r.scalars().all())
+
+
+async def get_total_count(
+        s: AsyncSession,
+        group_id: int,
+) -> int | None:
+    query = select(func.count()).select_from(CardItemOrm).filter(CardItemOrm.group_id == group_id)
+    r = await s.execute(query)
+    return r.scalar()
 
 
 async def create(

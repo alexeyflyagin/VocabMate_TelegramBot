@@ -1,16 +1,21 @@
 from dependency_injector import containers, providers
 
 from src import config
-from src.bot import handlers
+from src.bot import handlers, utils
+from src.bot.utils import utils
 from src.di.bot_container import BotContainer
 from src.di.data_container import DataContainer
 from src.di.service_container import ServiceContainer
 
 
 def inject():
-    handlers.utils.TRUSTED_USER_ID = di.config.TRUSTED_USER_ID()
+    utils.TRUSTED_USER_ID = di.config.TRUSTED_USER_ID()
 
     handlers.card_group.card_group_service = di.services.card_group()
+    handlers.card_group.card_item_service = di.services.card_item()
+
+    handlers.card_item.card_item_service = di.services.card_item()
+    handlers.card_item.card_group_service = di.services.card_group()
 
 
 class AppContainer(containers.DeclarativeContainer):

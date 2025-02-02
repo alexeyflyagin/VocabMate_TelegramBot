@@ -10,9 +10,9 @@ from src.bot.views.base.models import View, ViewType
 from src.bot.views.constants import Tag
 from src.bot.views.custom.keyboards.card_group import card_group_ikm
 from src.bot.views.custom.models.card_group import CardGroupViewData, CardGroupKeyboardData, DeleteCardGroupViewData, \
-    CardGroupPageOfListViewData
+    CardGroupPageListViewData, CardPageListOfCardGroupViewData
 
-MAX_ITEMS_IN_SHORT_LIST = 5
+MAX_ITEMS_IN_SHORT_LIST = 4
 
 
 def view__card_group(data: CardGroupViewData) -> View:
@@ -28,7 +28,11 @@ def view__card_group(data: CardGroupViewData) -> View:
 
     if total_cards > MAX_ITEMS_IN_SHORT_LIST:
         more_items_counter = total_cards - MAX_ITEMS_IN_SHORT_LIST
-        items.append(sres.CARD_GROUP.SHORT_LIST__MORE.format(more_counter=more_items_counter))
+        if more_items_counter == 1:
+            items.append(sres.CARD_GROUP.SHORT_LIST__MORE_ONE)
+        else:
+            items.append(sres.CARD_GROUP.SHORT_LIST__MORE.format(more_counter=more_items_counter))
+
 
     text = sres.CARD_GROUP.VIEW.format(
         id=data.card_group_id,
@@ -37,7 +41,8 @@ def view__card_group(data: CardGroupViewData) -> View:
         items_short_list='\n'.join(items) if items else sres.CARD_GROUP.SHORT_LIST__NO_ITEM_PLACEHOLDER
     )
 
-    markup = card_group_ikm(CardGroupKeyboardData(card_group_id=data.card_group_id, total_cards=total_cards))
+    markup = card_group_ikm(CardGroupKeyboardData(card_group_id=data.card_group_id, total_cards=total_cards,
+                                                  back_btn=data.back_btn))
 
     return View(view_type=ViewType.TEXT, text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=markup)
 
@@ -58,8 +63,8 @@ def view__delete_card_group(data: DeleteCardGroupViewData) -> View:
     return View(view_type=ViewType.TEXT, text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=markup)
 
 
-def view__card_group_list(data: CardGroupPageOfListViewData) -> View:
-    if not isinstance(data, CardGroupPageOfListViewData):
+def view__card_group_list(data: CardGroupPageListViewData) -> View:
+    if not isinstance(data, CardGroupPageListViewData):
         raise ValueError("Invalid type of data view. Required: `CardGroupPageOfListViewData`")
 
     list_items: list[ListItem] = []
@@ -71,7 +76,7 @@ def view__card_group_list(data: CardGroupPageOfListViewData) -> View:
         list_item = ListItem(btn_label=str(start_index + i), item_id=item.card_group_id)
         list_items.append(list_item)
         item_text = sres.CARD_GROUP_LIST.ITEM.format(
-            btn_label=list_item.btn_label,
+            btn_label=esc_md(list_item.btn_label),
             title=esc_md(shorten(item.title, width=30))
         )
         items.append(item_text)
@@ -87,6 +92,44 @@ def view__card_group_list(data: CardGroupPageOfListViewData) -> View:
         c_page=data.page,
         total_pages=data.total_pages,
         total_items=data.total_items,
+    )
+    markup = list_ikm(markup_data)
+
+    return View(view_type=ViewType.TEXT, text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=markup)
+
+
+def view__card_list_of_card_group(data: CardPageListOfCardGroupViewData) -> View:
+    if not isinstance(data, CardPageListOfCardGroupViewData):
+        raise ValueError("Invalid type of data view. Required: `CardPageOfListViewData`")
+
+    list_items: list[ListItem] = []
+    items: list[str] = []
+
+    start_index = data.page * data.limit + 1
+    for i in range(len(data.items)):
+        item = data.items[i]
+        list_item = ListItem(btn_label=str(start_index + i), item_id=item.card_item_id)
+        list_items.append(list_item)
+        item_text = sres.CARD_GROUP.CARDS.ITEM.format(
+            btn_label=esc_md(list_item.btn_label),
+            term=esc_md(shorten(item.term, width=30))
+        )
+        items.append(item_text)
+
+    text = sres.CARD_GROUP.CARDS.VIEW__NO_ITEMS.format(card_group_title=data.card_group_title)
+    if items:
+        text = sres.CARD_GROUP.CARDS.VIEW.format(card_group_title=data.card_group_title, items='\n'.join(items))
+
+    markup_data = ListKeyboardData(
+        tag=Tag.CARD_LIST_OF_CARD_GROUP,
+        add_btn=sres.DEFAULT.BTN.ADD,
+        back_btn=sres.DEFAULT.BTN.BACK,
+        items=list_items,
+        c_page=data.page,
+        total_pages=data.total_pages,
+        total_items=data.total_items,
+        p_arg=data.card_group_id,
+        max_item_in_row=8,
     )
     markup = list_ikm(markup_data)
 

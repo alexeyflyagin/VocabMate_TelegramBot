@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, StrEnum
 
 from pydantic import BaseModel, Field
 
@@ -8,7 +8,7 @@ class ListItem(BaseModel):
     item_id: int
 
 
-class Elements(str, Enum):
+class Elements(StrEnum):
     BACK_BTN = 'back_btn'
     ADD_BTN = 'add_btn'
     ITEMS = 'items'

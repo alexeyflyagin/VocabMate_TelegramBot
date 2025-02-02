@@ -25,7 +25,7 @@ def list_ikm(
         elif element == element.BACK_BTN and data.back_btn:
             back_btn_data = ListCD(tag=data.tag, c_page=data.c_page, p_arg=data.p_arg, s_arg=data.s_arg,
                                    action=ListCD.Action.BACK).pack()
-            ikb.add(InlineKeyboardButton(text=data.add_btn, callback_data=back_btn_data))
+            ikb.add(InlineKeyboardButton(text=data.back_btn, callback_data=back_btn_data))
             adjust.append(1)
 
         elif element == element.SCROLL:

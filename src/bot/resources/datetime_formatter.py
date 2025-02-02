@@ -1,8 +1,8 @@
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 
-class FormatType(str, Enum):
+class FormatType(StrEnum):
     STANDARD = "%Y-%m-%d %H:%M:%S"
 
 

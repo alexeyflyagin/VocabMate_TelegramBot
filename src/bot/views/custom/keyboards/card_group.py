@@ -12,9 +12,19 @@ def card_group_ikm(data: CardGroupKeyboardData) -> InlineKeyboardMarkup:
         raise ValueError("Invalid type of data view. Required: `CardGroupKeyboardData`")
 
     ikb = InlineKeyboardBuilder()
+    adjust = []
+    new_card_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.NEW_CARD).pack()
     cards_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.CARDS).pack()
     delete_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.DELETE).pack()
+    ikb.add(InlineKeyboardButton(text=sres.BTN.ADD_NEW_CARD, callback_data=new_card_data))
     ikb.add(InlineKeyboardButton(text=add_counter(sres.BTN.CARDS, count=data.total_cards), callback_data=cards_data))
     ikb.add(InlineKeyboardButton(text=sres.BTN.DELETE, callback_data=delete_data))
-    ikb.adjust(1)
+    adjust += [2, 1]
+
+    if data.back_btn:
+        back_to_list_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.BACK_TO_LIST).pack()
+        ikb.add(InlineKeyboardButton(text=data.back_btn, callback_data=back_to_list_data))
+        adjust.append(1)
+
+    ikb.adjust(*adjust)
     return ikb.as_markup()

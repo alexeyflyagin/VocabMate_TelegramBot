@@ -4,9 +4,10 @@ from aiogram.filters import StateFilter, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from src.bot.handlers.utils import check_user_id
 from src.bot.resources import sres, commands
 from src.bot.states import MainStates
+from src.bot.utils.state_utils import cancel_current_action
+from src.bot.utils.utils import check_user_id
 
 router = Router(name=__name__)
 
@@ -21,9 +22,4 @@ async def start_command__handler(msg: Message, state: FSMContext):
 
 @router.message(Command(commands.CANCEL))
 async def cancel__handler(msg: Message, state: FSMContext):
-    current_state = await state.get_state()
-    if current_state and current_state.startswith(MainStates.__name__):
-        await msg.answer(text=sres.CANCEL.NO_ACTIONS)
-        return
-    await state.set_state(MainStates.Main)
-    await msg.answer(text=sres.CANCEL.SUCCESS)
+    await cancel_current_action(msg, state)
