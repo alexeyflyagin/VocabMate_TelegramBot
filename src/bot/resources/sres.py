@@ -60,7 +60,7 @@ class CARD_GROUP:
     Card Group  #{id}
     *{title}*
     
-    *Date create:*  {date_create}
+    *Created at:*  {created_at}
     —
     {items_short_list}
     """)
@@ -91,7 +91,10 @@ class NEW_CARD_GROUP:
     Use /cancel to cancel this operation.
     """)
 
-    SUCCESS = dedent("""✅ New card group successfully created!""")
+    SUCCESS = dedent("""
+    ✅ New card group successfully created! 
+    Use /newcardgroup to create more.
+    """)
 
 
 class CHECK:

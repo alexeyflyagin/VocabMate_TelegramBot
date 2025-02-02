@@ -21,7 +21,7 @@ async def get_by_group_id(
         group_id: int,
         with_for_update: bool = False
 ) -> tuple[CardItemOrm, ...]:
-    query = select(CardItemOrm).filter(CardItemOrm.group_id == group_id).order_by(CardItemOrm.date_create)
+    query = select(CardItemOrm).filter(CardItemOrm.group_id == group_id).order_by(CardItemOrm.created_at)
     set_with_for_update_if(query, with_for_update)
     res = await s.execute(query)
     return tuple(res.scalars().all())

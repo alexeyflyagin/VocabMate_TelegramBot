@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class ItemData(BaseModel):
     card_group_id: int
-    date_create: datetime
+    created_at: datetime
     title: str
     card_labels: list[str]
 
@@ -20,7 +20,7 @@ class CardGroupPageOfListViewData(BaseModel):
 
 class CardGroupViewData(BaseModel):
     card_group_id: int
-    date_create: datetime
+    created_at: datetime
     title: str
     card_labels: list[str]
 

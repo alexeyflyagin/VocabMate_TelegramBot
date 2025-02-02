@@ -33,7 +33,7 @@ def view__card_group(data: CardGroupViewData) -> View:
     text = sres.CARD_GROUP.VIEW.format(
         id=data.card_group_id,
         title=esc_md(data.title),
-        date_create=date_format(data.date_create),
+        created_at=date_format(data.created_at),
         items_short_list='\n'.join(items) if items else sres.CARD_GROUP.SHORT_LIST__NO_ITEM_PLACEHOLDER
     )
 

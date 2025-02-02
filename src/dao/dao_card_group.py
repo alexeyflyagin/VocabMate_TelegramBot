@@ -22,7 +22,7 @@ async def get_page(
         page: int,
         block_row: bool = False,
 ) -> tuple[CardGroupOrm, ...] | None:
-    query = select(CardGroupOrm).order_by(CardGroupOrm.date_create.desc())
+    query = select(CardGroupOrm).order_by(CardGroupOrm.created_at.desc())
     offset = page * limit
     query = query.offset(offset).limit(limit)
     query = set_with_for_update_if(query, block_row)
