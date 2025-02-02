@@ -13,6 +13,12 @@ def card_group_ikm(data: CardGroupKeyboardData) -> InlineKeyboardMarkup:
 
     ikb = InlineKeyboardBuilder()
     adjust = []
+
+    if data.total_cards > 0:
+        to_train_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.TO_TRAIN).pack()
+        ikb.add(InlineKeyboardButton(text=sres.BTN.LETS_GO_TRAIN, callback_data=to_train_data))
+        adjust.append(1)
+
     new_card_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.NEW_CARD).pack()
     cards_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.CARDS).pack()
     delete_data = CardGroupCD(card_group_id=data.card_group_id, action=CardGroupCD.Action.DELETE).pack()

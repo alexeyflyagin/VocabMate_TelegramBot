@@ -12,3 +12,9 @@ class NewCardGroupStates(StatesGroup):
 class NewCardItemStates(StatesGroup):
     Term = State()
     Definition = State()
+
+
+class TrainingStates(StatesGroup):
+    Start = State()
+    Term = State()
+    Definition = State()

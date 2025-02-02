@@ -29,6 +29,7 @@ class BTN:
     CONFIRM = "Yes, that's right!"
     CANCEL = "Cancel"
     DELETE = "Delete"
+    LETS_GO_TRAIN = "▶ Let's go train"
     CARDS = "Cards"
     BACK_TO_LIST = "« Back to list"
 
@@ -141,6 +142,51 @@ class NEW_CARD_ITEM:
     SUCCESS = dedent("""
     ✅ New card successfully created and added to '{title}' card group!
     """)
+
+
+class TRAINING:
+    TRAINING_IS_STARTED = "Training is started."
+
+    START_TEXT = dedent("""
+    Alright, now I'll send to you a card terms from '*{card_group_title}*' card group.
+    
+    *Total number of cards:*  {total_levels}
+    
+    You need to respond whether you remember a definition of each card or not. *I remind you of one If you forgot it, but the number of cards will increase.* Try to remember every card.
+    
+    Are you ready?
+    _You can stop the training whenever you want by using /cancel._
+    """)
+
+    FINISH_TEXT = dedent("""
+    👌 Alright, you finish this training for {card_group_title} card group.
+    
+    *Answered:*  *{total_answered}* / {total_levels}
+    *Mistakes:*  {total_wrong}
+    
+    """)
+
+    CARD__TERM__VIEW = dedent("""
+    {progress_bar}  {percentage}%  ({total_answered} / {total_levels})
+
+    {term}
+    —
+    """)
+
+    CARD__TERM__WITH_DEFINITION__VIEW = dedent("""
+    {progress_bar}  {percentage}%  ({total_answered} / {total_levels} *+{total_added}*)
+    
+    {term}
+    —
+    {definition}
+    —
+    """)
+
+    class BTN:
+        LETS_GO = "Let's go!"
+        REMEMBER = "Remember"
+        FORGOT = "Forgot"
+        OK = "Okay. I remember now!"
 
 
 class CHECK:

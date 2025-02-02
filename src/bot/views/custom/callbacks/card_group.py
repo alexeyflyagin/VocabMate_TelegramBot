@@ -14,3 +14,4 @@ class CardGroupCD(CallbackData, prefix=CallbackPrefix.CARD_GROUP):
         CARDS = 1
         BACK_TO_LIST = 2
         NEW_CARD = 3
+        TO_TRAIN = 4

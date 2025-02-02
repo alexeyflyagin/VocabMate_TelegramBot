@@ -23,6 +23,7 @@ class BotContainer(containers.DeclarativeContainer):
             handlers.start.router,
             handlers.card_group.router,
             handlers.card_item.router,
+            handlers.training.router,
             handlers.end.router
         ],
     )

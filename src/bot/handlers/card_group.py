@@ -8,7 +8,7 @@ from src.bot.checks import check_content_type, MsgCheckError
 from src.bot.resources import sres, commands
 from src.bot.states import NewCardGroupStates, MainStates
 from src.bot.utils.update_state_utils import update_state__for__new_card_group, \
-    update_state__for__new_card_item
+    update_state__for__new_card_item, update_state__for__start_training
 from src.bot.utils.utils import show_card_list_of_card_group, show_card_group_list
 from src.bot.views.base.default.callbacks.confirmation import ConfirmationCD
 from src.bot.views.base.default.callbacks.list import ListCD
@@ -20,10 +20,13 @@ from src.loggers import bot_logger
 from src.services.exceptions import VocabMateNotFoundError
 from src.services.impl.card_group import CardGroupService
 from src.services.impl.card_item import CardItemService
+from src.services.impl.training import TrainingService
 from src.services.models.card_group import CreateCardGroupRequest, GetCardGroupsRequest
 from src.services.models.card_item import GetCardsOfCardGroupRequest
+from src.services.models.training import StartTrainingRequest
 
 router = Router(name=__name__)
+training_service: TrainingService
 card_group_service: CardGroupService
 card_item_service: CardItemService
 
@@ -69,6 +72,11 @@ async def card_group__callback(callback: CallbackQuery, state: FSMContext):
         elif data.action == data.Action.NEW_CARD:
             await update_state__for__new_card_item(callback.message, state, card_group.id)
             await callback.answer()
+        elif data.action == data.Action.TO_TRAIN:
+            request_data = StartTrainingRequest(card_group_id=card_group.id)
+            response = await training_service.start_training(request_data)
+            await update_state__for__start_training(callback.message, state, response)
+            await callback.answer(sres.TRAINING.TRAINING_IS_STARTED)
         else:
             await callback.answer(sres.DEFAULT.UNEXPECTED_ACTION)
     except VocabMateNotFoundError as e:

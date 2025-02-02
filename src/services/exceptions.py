@@ -9,3 +9,7 @@ class VocabMateDatabaseError(VocabMateAPIError):
 
 class VocabMateNotFoundError(VocabMateAPIError):
     pass
+
+
+class VocabMateUnprocessableEntityError(VocabMateAPIError):
+    pass
